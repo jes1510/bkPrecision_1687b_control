@@ -26,13 +26,8 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 
 		try :
 			self.setPort()
-			ret = self.sendCommand("SOUT1")
-			assert ret == 'OK\r'
-			self.enToggle_button.SetValue(0)
-			self.enToggle_button.SetBackgroundColour("RED")
-			self.enToggle_button.SetLabel("Disabled")
-			self.enToggle_button.SetValue(0)
 			self.onSingle(None)
+			self.onEn_Button(None)
 
 		except :
 			print "Not connected...", ret
