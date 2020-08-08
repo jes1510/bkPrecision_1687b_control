@@ -17,9 +17,9 @@ import wx.xrc
 class Frame ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"BK Precision 1687b", pos = wx.DefaultPosition, size = wx.Size( 392,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"BK Precision 1687b", pos = wx.DefaultPosition, size = wx.Size( 500,315 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
-		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+		self.SetSizeHints( wx.Size( 500,315 ), wx.Size( 500,315 ) )
 
 		bSizer1 = wx.BoxSizer( wx.VERTICAL )
 
@@ -40,7 +40,7 @@ class Frame ( wx.Frame ):
 		bSizer2.Add( self.enToggle_button, 0, wx.ALL, 5 )
 
 
-		bSizer1.Add( bSizer2, 1, wx.EXPAND, 5 )
+		bSizer1.Add( bSizer2, 0, wx.EXPAND, 5 )
 
 		bSizer3 = wx.BoxSizer( wx.HORIZONTAL )
 
@@ -54,7 +54,7 @@ class Frame ( wx.Frame ):
 		bSizer3.Add( self.m_button3, 0, wx.ALL, 5 )
 
 
-		bSizer1.Add( bSizer3, 1, wx.EXPAND, 5 )
+		bSizer1.Add( bSizer3, 0, wx.EXPAND, 5 )
 
 		bSizer4 = wx.BoxSizer( wx.HORIZONTAL )
 
@@ -63,7 +63,7 @@ class Frame ( wx.Frame ):
 
 		bSizer4.Add( self.m_staticText3, 0, wx.ALL, 5 )
 
-		self.pollmS_txtCtrl = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.pollmS_txtCtrl = wx.TextCtrl( self, wx.ID_ANY, u"100", wx.DefaultPosition, wx.DefaultSize, 0 )
 		bSizer4.Add( self.pollmS_txtCtrl, 0, wx.ALL, 5 )
 
 		self.poll_button = wx.ToggleButton( self, wx.ID_ANY, u"Poll", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -73,75 +73,72 @@ class Frame ( wx.Frame ):
 		bSizer4.Add( self.m_button4, 0, wx.ALL, 5 )
 
 
-		bSizer1.Add( bSizer4, 1, wx.EXPAND, 5 )
+		bSizer1.Add( bSizer4, 0, wx.EXPAND, 5 )
 
-		sbSizer1 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Status" ), wx.HORIZONTAL )
+		bSizer7 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.m_staticText9 = wx.StaticText( sbSizer1.GetStaticBox(), wx.ID_ANY, u"Voltage(v):", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText9.Wrap( -1 )
+		status_sizer = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Voltage" ), wx.HORIZONTAL )
 
-		sbSizer1.Add( self.m_staticText9, 0, wx.ALL, 5 )
-
-		self.statusV_val = wx.StaticText( sbSizer1.GetStaticBox(), wx.ID_ANY, u"0", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.statusV_val.Wrap( -1 )
-
-		sbSizer1.Add( self.statusV_val, 0, wx.ALL, 5 )
+		self.vStatus_panel = wx.Panel( status_sizer.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		status_sizer.Add( self.vStatus_panel, 1, wx.EXPAND |wx.ALL, 5 )
 
 
-		sbSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		bSizer7.Add( status_sizer, 1, wx.EXPAND, 5 )
 
-		self.m_staticText11 = wx.StaticText( sbSizer1.GetStaticBox(), wx.ID_ANY, u"Current(mA):", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText11.Wrap( -1 )
+		sbSizer4 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Current" ), wx.VERTICAL )
 
-		sbSizer1.Add( self.m_staticText11, 0, wx.ALL, 5 )
-
-		self.statusC_val = wx.StaticText( sbSizer1.GetStaticBox(), wx.ID_ANY, u"0", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.statusC_val.Wrap( -1 )
-
-		sbSizer1.Add( self.statusC_val, 0, wx.ALL, 5 )
+		self.iStatus_panel = wx.Panel( sbSizer4.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		sbSizer4.Add( self.iStatus_panel, 1, wx.EXPAND |wx.ALL, 5 )
 
 
-		sbSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		bSizer7.Add( sbSizer4, 1, wx.EXPAND, 5 )
 
 
-		bSizer1.Add( sbSizer1, 1, wx.EXPAND, 5 )
+		bSizer1.Add( bSizer7, 1, wx.EXPAND, 5 )
 
-		sbSizer3 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Settings" ), wx.HORIZONTAL )
+		settings_sizer = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Settings" ), wx.HORIZONTAL )
 
-		self.m_staticText4 = wx.StaticText( sbSizer3.GetStaticBox(), wx.ID_ANY, u"Voltage (v):", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText4 = wx.StaticText( settings_sizer.GetStaticBox(), wx.ID_ANY, u"Voltage (V):", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText4.Wrap( -1 )
 
-		sbSizer3.Add( self.m_staticText4, 0, wx.ALL, 5 )
+		settings_sizer.Add( self.m_staticText4, 0, wx.ALL, 5 )
 
-		self.voltage_val = wx.StaticText( sbSizer3.GetStaticBox(), wx.ID_ANY, u"0", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.voltage_val = wx.StaticText( settings_sizer.GetStaticBox(), wx.ID_ANY, u"0", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.voltage_val.Wrap( -1 )
 
-		sbSizer3.Add( self.voltage_val, 0, wx.ALL, 5 )
+		settings_sizer.Add( self.voltage_val, 0, wx.ALL, 5 )
 
 
-		sbSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		settings_sizer.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 
-		self.m_staticText6 = wx.StaticText( sbSizer3.GetStaticBox(), wx.ID_ANY, u"Current (mA):", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText6 = wx.StaticText( settings_sizer.GetStaticBox(), wx.ID_ANY, u"Current (A):", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText6.Wrap( -1 )
 
-		sbSizer3.Add( self.m_staticText6, 0, wx.ALL, 5 )
+		settings_sizer.Add( self.m_staticText6, 0, wx.ALL, 5 )
 
-		self.current_val = wx.StaticText( sbSizer3.GetStaticBox(), wx.ID_ANY, u"0", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.current_val = wx.StaticText( settings_sizer.GetStaticBox(), wx.ID_ANY, u"0", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.current_val.Wrap( -1 )
 
-		sbSizer3.Add( self.current_val, 0, wx.ALL, 5 )
+		settings_sizer.Add( self.current_val, 0, wx.ALL, 5 )
 
 
-		sbSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		settings_sizer.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 
 
-		bSizer1.Add( sbSizer3, 1, wx.EXPAND, 5 )
+		bSizer1.Add( settings_sizer, 0, wx.EXPAND, 5 )
+
+		bSizer6 = wx.BoxSizer( wx.HORIZONTAL )
+
+
+		bSizer1.Add( bSizer6, 1, wx.EXPAND, 5 )
 
 
 		self.SetSizer( bSizer1 )
 		self.Layout()
 		self.timer = wx.Timer()
 		self.timer.SetOwner( self, wx.ID_ANY )
+		self.oneShot_Timer = wx.Timer()
+		self.oneShot_Timer.SetOwner( self, wx.ID_ANY )
 
 		self.Centre( wx.BOTH )
 
@@ -152,6 +149,7 @@ class Frame ( wx.Frame ):
 		self.poll_button.Bind( wx.EVT_TOGGLEBUTTON, self.onPoll )
 		self.m_button4.Bind( wx.EVT_BUTTON, self.onSingle )
 		self.Bind( wx.EVT_TIMER, self.onTimer, id=wx.ID_ANY )
+		self.Bind( wx.EVT_TIMER, self.onOneShot, id=wx.ID_ANY )
 
 	def __del__( self ):
 		pass
@@ -174,6 +172,9 @@ class Frame ( wx.Frame ):
 		event.Skip()
 
 	def onTimer( self, event ):
+		event.Skip()
+
+	def onOneShot( self, event ):
 		event.Skip()
 
 

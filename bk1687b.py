@@ -5,6 +5,7 @@ import bk1687bGUI
 import glob
 import serial
 import time
+import wx.lib.gizmos.ledctrl as led
 
 # Implementing Frame
 class bk1687bFrame( bk1687bGUI.Frame ):
@@ -16,6 +17,12 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 		self.sp_choice.SetSelection(0)
 		self.enToggle_button.SetBackgroundColour("RED")
 		self.enToggle_button.SetLabel("Not Connected")
+		self.poll_button.SetValue(True)
+		self.timer.Start(100)
+		self.vStatus_Led = led.LEDNumberCtrl(self.vStatus_panel, -1, size = (250,100))
+		self.vStatus_Led.SetValue("0.000")
+		self.iStatus_Led = led.LEDNumberCtrl(self.iStatus_panel, -1, size = (250,100))
+		self.iStatus_Led.SetValue("0.000")
 
 		try :
 			self.setPort()
@@ -36,6 +43,7 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 			self.enToggle_button.SetBackgroundColour("GREEN")
 			self.enToggle_button.SetLabel("Enabled")
 			self.sendCommand("SOUT0")
+			self.oneShot_Timer.Start(3000)
 
 		else :
 			self.enToggle_button.SetBackgroundColour("RED")
@@ -78,11 +86,14 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 	def onSetV( self, event ):
 		self.sendCommand("VOLT" + self.parseInput())
 
+
+
 	def onTimer(self, event) :
 		self.onSingle(None)
 
 	def onSetC( self, event ):
 		self.sendCommand("CURR" + self.parseInput())
+
 
 	def onPoll( self, event ):
 		self.timer.Stop()
@@ -107,12 +118,15 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 		ret = self.sendCommand("GETD")
 		v = float(ret[0:4]) / 100
 		c = float(ret[4:8]) / 100
+		self.vStatus_Led.SetValue(str(v))
+		self.iStatus_Led.SetValue(str(c))
+		#self.statusV_val.SetLabel(str(v))
+		#self.statusC_val.SetLabel(str(c))
+		self.oneShot_Timer.Stop()
 
-		self.statusV_val.SetLabel(str(v))
-		self.statusC_val.SetLabel(str(c))
 
-
-app = wx.App(False)
-frame = bk1687bFrame(None)
-frame.Show(True)
-app.MainLoop()
+if __name__ == "__main__" :
+	app = wx.App(False)
+	frame = bk1687bFrame(None)
+	frame.Show(True)
+	app.MainLoop()
