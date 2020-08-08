@@ -43,7 +43,7 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 			self.enToggle_button.SetBackgroundColour("GREEN")
 			self.enToggle_button.SetLabel("Enabled")
 			self.sendCommand("SOUT0")
-			self.oneShot_Timer.Start(3000)
+
 
 		else :
 			self.enToggle_button.SetBackgroundColour("RED")
@@ -120,9 +120,7 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 		c = float(ret[4:8]) / 100
 		self.vStatus_Led.SetValue(str(v))
 		self.iStatus_Led.SetValue(str(c))
-		#self.statusV_val.SetLabel(str(v))
-		#self.statusC_val.SetLabel(str(c))
-		self.oneShot_Timer.Stop()
+
 
 
 if __name__ == "__main__" :
