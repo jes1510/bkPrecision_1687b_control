@@ -15,10 +15,8 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 		for i in self.ports :
 			self.sp_choice.Append(i)
 		self.sp_choice.SetSelection(0)
-		self.enToggle_button.SetBackgroundColour("RED")
-		self.enToggle_button.SetLabel("Not Connected")
+
 		self.poll_button.SetValue(True)
-		self.timer.Start(100)
 		self.vStatus_Led = led.LEDNumberCtrl(self.vStatus_panel, -1, size = (250,100))
 		self.vStatus_Led.SetValue("0.000")
 		self.iStatus_Led = led.LEDNumberCtrl(self.iStatus_panel, -1, size = (250,100))
@@ -28,9 +26,12 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 			self.setPort()
 			self.onSingle(None)
 			self.onEn_Button(None)
+			self.timer.Start(100)
 
 		except :
-			print "Not connected...", ret
+			self.enToggle_button.SetBackgroundColour("RED")
+			self.enToggle_button.SetLabel("Not Connected")
+			print "Not connected..."
 
 
 	def onEn_Button(self, event) :
