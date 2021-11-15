@@ -1,5 +1,6 @@
 import serial
 import glob
+import sys
 
 class bk1687b :
 	def __init__(self) :
@@ -14,7 +15,6 @@ class bk1687b :
 		self.port = serial.Serial(p, 9600, timeout=0.5)
 
 	def sendCommand(self, command) :
-		#print "Sending: " + command
 		if not '\r'  in command :
 			command += "\r"
 		self.port.write(command.encode())
@@ -77,14 +77,20 @@ if __name__ == "__main__" :
 	parser.add_argument('-s', action='store_true', help='Show settings')
 	parser.add_argument('-o', action='store_true', help='Show output')
 
-
 	args = parser.parse_args()
 
 	bk = bk1687b()
+
 	try :
+		assert(args.p)
 		bk.setPortByName(args.p)
+
 	except :
-		print ("Unable to access port!")
+		if not args.p :
+			print ("Serial port MUST be given with -p argument")
+		else :
+			print ("Unable to access port:", args.p)
+		sys.exit(1)
 
 	if args.on :
 		bk.enable()
