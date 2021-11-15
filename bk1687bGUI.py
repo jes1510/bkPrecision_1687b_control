@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ###########################################################################
-## Python code generated with wxFormBuilder (version Oct 26 2018)
+## Python code generated with wxFormBuilder (version 3.9.0 Nov  2 2020)
 ## http://www.wxformbuilder.org/
 ##
 ## PLEASE DO *NOT* EDIT THIS FILE!
@@ -17,9 +17,9 @@ import wx.xrc
 class Frame ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"BK Precision 1687b", pos = wx.DefaultPosition, size = wx.Size( 500,315 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"BK Precision 1687b", pos = wx.DefaultPosition, size = wx.Size( 500,400 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
-		self.SetSizeHints( wx.Size( 500,315 ), wx.Size( 500,315 ) )
+		self.SetSizeHints( wx.Size( 500,400 ), wx.Size( 500,400 ) )
 
 		bSizer1 = wx.BoxSizer( wx.VERTICAL )
 
@@ -137,8 +137,6 @@ class Frame ( wx.Frame ):
 		self.Layout()
 		self.timer = wx.Timer()
 		self.timer.SetOwner( self, wx.ID_ANY )
-		self.oneShot_Timer = wx.Timer()
-		self.oneShot_Timer.SetOwner( self, wx.ID_ANY )
 
 		self.Centre( wx.BOTH )
 
@@ -149,7 +147,6 @@ class Frame ( wx.Frame ):
 		self.poll_button.Bind( wx.EVT_TOGGLEBUTTON, self.onPoll )
 		self.m_button4.Bind( wx.EVT_BUTTON, self.onSingle )
 		self.Bind( wx.EVT_TIMER, self.onTimer, id=wx.ID_ANY )
-		self.Bind( wx.EVT_TIMER, self.onOneShot, id=wx.ID_ANY )
 
 	def __del__( self ):
 		pass
@@ -172,9 +169,6 @@ class Frame ( wx.Frame ):
 		event.Skip()
 
 	def onTimer( self, event ):
-		event.Skip()
-
-	def onOneShot( self, event ):
 		event.Skip()
 
 

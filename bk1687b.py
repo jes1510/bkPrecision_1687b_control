@@ -6,6 +6,8 @@ import glob
 import serial
 import time
 import wx.lib.gizmos.ledctrl as led
+import bk1687bdrv
+
 
 # Implementing Frame
 class bk1687bFrame( bk1687bGUI.Frame ):
