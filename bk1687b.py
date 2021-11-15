@@ -8,13 +8,14 @@ import time
 import wx.lib.gizmos.ledctrl as led
 import bk1687bdrv
 
+bk = bk1687bdrv.bk1687b()
 
 # Implementing Frame
 class bk1687bFrame( bk1687bGUI.Frame ):
 	def __init__( self, parent ):
 		bk1687bGUI.Frame.__init__( self, parent )
-		self.ports = glob.glob("/dev/ttyUSB*")
-		for i in self.ports :
+
+		for i in bk.ports :
 			self.sp_choice.Append(i)
 		self.sp_choice.SetSelection(0)
 
@@ -25,7 +26,7 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 		self.iStatus_Led.SetValue("0.000")
 
 		try :
-			self.setPort()
+			bk.setPort()
 			self.onSingle(None)
 			self.onEn_Button(None)
 			self.timer.Start(100)
@@ -33,64 +34,28 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 		except :
 			self.enToggle_button.SetBackgroundColour("RED")
 			self.enToggle_button.SetLabel("Not Connected")
-			print "Not connected..."
+
 
 
 	def onEn_Button(self, event) :
+		sel = self.sp_choice.GetSelection()
 		if self.enToggle_button.GetValue() :
 			self.enToggle_button.SetBackgroundColour("GREEN")
 			self.enToggle_button.SetLabel("Enabled")
-			self.sendCommand("SOUT0")
+			bk.setPort(sel)
+			bk.enable()
 
 
 		else :
 			self.enToggle_button.SetBackgroundColour("RED")
 			self.enToggle_button.SetLabel("Disabled")
-			self.sendCommand("SOUT1")
-
-
-	def setPort (self) :
-		s = self.sp_choice.GetSelection()
-		p = self.ports[s]
-		self.port = serial.Serial(p, 9600, timeout=0.5)
-
-	def sendCommand(self, command) :
-		#print "Sending: " + command
-		if not '\r'  in command :
-			command += "\r"
-		self.setPort()
-		self.port.write(command)
-		return self.getAck()
-
-	def getAck(self) :
-		ch = ''
-		ret = ''
-		while ch != '\r' :
-			ch = self.port.read()
-			if not ch :
-				break
-			ret += ch
-		return ret
-
-	def parseInput(self) :
-		v = str(float(self.input_txtCtrl.GetValue())).replace(".", "")
-		v = v[:3]
-		if len (v) < 3 :
-			v = "0" + v
-
-		self.input_txtCtrl.SetValue('')
-		return v
-
-	def onSetV( self, event ):
-		self.sendCommand("VOLT" + self.parseInput())
-
+			bk.setPort(sel)
+			bk.disable()
 
 
 	def onTimer(self, event) :
 		self.onSingle(None)
 
-	def onSetC( self, event ):
-		self.sendCommand("CURR" + self.parseInput())
 
 
 	def onPoll( self, event ):
@@ -106,16 +71,13 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 				self.poll_button.SetValue(0)
 
 	def onSingle( self, event ):
-		ret = self.sendCommand("GETS")
-		self.getAck()
-		v = float(ret[0:3]) / 10
-		c = float(ret[3:6]) / 10
+		v, c = bk.getSettings()
+
 		self.voltage_val.SetLabel(str(v))
 		self.current_val.SetLabel(str(c))
 
-		ret = self.sendCommand("GETD")
-		v = float(ret[0:4]) / 100
-		c = float(ret[4:8]) / 100
+		v, c = bk.getValues()
+
 		self.vStatus_Led.SetValue(str(v))
 		self.iStatus_Led.SetValue(str(c))
 
