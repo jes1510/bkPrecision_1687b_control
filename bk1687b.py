@@ -81,6 +81,13 @@ class bk1687bFrame( bk1687bGUI.Frame ):
 		self.vStatus_Led.SetValue(str(v))
 		self.iStatus_Led.SetValue(str(c))
 
+	def onSetV(self, event) :
+		v = float(self.input_txtCtrl.GetValue())
+		bk.setV(v)
+
+	def onSetC(self, event) :
+		c = float(self.input_txtCtrl.GetValue())
+		bk.setV(c)
 
 
 if __name__ == "__main__" :
