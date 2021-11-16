@@ -32,11 +32,10 @@ class bk1687b :
 
 
 	def parseInput(self, i) :
-		v = str(float(str(i).replace(".", "")))
+		v = str(i).replace(".", "")
 		v = v[:3]
 		if len (v) < 3 :
 			v = "0" + v
-
 		return v
 
 	def setV( self, v ):
